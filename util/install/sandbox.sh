@@ -17,6 +17,12 @@ if [[ ! "$(lsb_release -d | cut -f2)" =~ $'Ubuntu 12.04' ]]; then
 fi
 
 ##
+## Set ppa repository source for gcc/g++ 4.8 in order to install insights properly
+##
+sudo apt-get install -y python-software-properties
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+
+##
 ## Update and Upgrade apt packages
 ##
 sudo apt-get update -y
@@ -25,9 +31,16 @@ sudo apt-get upgrade -y
 ##
 ## Install system pre-requisites
 ##
-sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev
-sudo pip install --upgrade pip
-sudo pip install --upgrade virtualenv
+sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev libxmlsec1-dev libfreetype6-dev swig gcc-4.8 g++-4.8
+sudo pip install --upgrade pip==7.1.2
+sudo pip install --upgrade setuptools==18.3.2
+sudo -H pip install --upgrade virtualenv==13.1.2
+
+##
+## Update alternatives so that gcc/g++ 4.8 is the default compiler
+##
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50
 
 ## Did we specify an openedx release?
 if [ -n "$OPENEDX_RELEASE" ]; then
@@ -35,10 +48,14 @@ if [ -n "$OPENEDX_RELEASE" ]; then
     -e certs_version=$OPENEDX_RELEASE \
     -e forum_version=$OPENEDX_RELEASE \
     -e xqueue_version=$OPENEDX_RELEASE \
+    -e configuration_version=$OPENEDX_RELEASE \
+    -e NOTIFIER_VERSION=$OPENEDX_RELEASE \
+    -e INSIGHTS_VERSION=$OPENEDX_RELEASE \
+    -e ANALYTICS_API_VERSION=$OPENEDX_RELEASE \
   "
   CONFIG_VER=$OPENEDX_RELEASE
 else
-  CONFIG_VER="release"
+  CONFIG_VER="master"
 fi
 
 ##
@@ -48,6 +65,7 @@ cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
 git checkout $CONFIG_VER
+git cherry-pick de9dab6
 
 ##
 ## Install the ansible requirements
@@ -59,7 +77,7 @@ sudo pip install -r requirements.txt
 ## Get configuratuon
 ##
 cd /var/tmp/
-wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/configuration/named-release/cypress-hneu/util/install/server-vars.yml
+wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/master/util/install/server-vars.yml
 
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
