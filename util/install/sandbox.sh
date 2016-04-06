@@ -71,17 +71,9 @@ git cherry-pick de9dab6
 ## Install the ansible requirements
 ##
 cd /var/tmp/configuration
-sudo pip install -r requirements.txt
-
-##
-## Get configuratuon
-##
-cd /var/tmp/
-wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/master/util/install/server-vars.yml
+sudo -H pip install -r requirements.txt
 
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
-cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
-
-cp /var/tmp/server-vars.yml /edx/app/edx_ansible/server-vars.yml
+cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," $EXTRA_VARS
