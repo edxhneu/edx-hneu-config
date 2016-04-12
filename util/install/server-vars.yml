@@ -1,7 +1,7 @@
 #
 # Component
 #
-configuration_version: 'named-release/dogwood.1' 
+configuration_version: 'named-release/cypress' 
 
 # make this the public URL instead of writable
 #edx_platform_repo: "https://{{ COMMON_GIT_MIRROR }}/edx/edx-platform.git"
@@ -9,12 +9,12 @@ configuration_version: 'named-release/dogwood.1'
 # reference, including a tag, a branch name, or a commit hash
 edx_platform_version: 'named-release/cypress'
 
-certs_version: 'named-release/dogwood.1'
-forum_version: 'named-release/dogwood.1'
-xqueue_version: 'named-release/dogwood.1'
-NOTIFIER_VERSION: 'named-release/dogwood.1'
-INSIGHTS_VERSION: 'named-release/dogwood.1'
-ANALYTICS_API_VERSION: 'named-release/dogwood.1'
+certs_version: 'named-release/cypress'
+forum_version: 'named-release/cypress'
+xqueue_version: 'named-release/cypress'
+NOTIFIER_VERSION: 'named-release/cypress'
+INSIGHTS_VERSION: 'named-release/cypress'
+ANALYTICS_API_VERSION: 'named-release/cypress'
 EDX_NOTES_API_VERSION: 'cf63214dfed01daec1405f27292e0dd917f28d50'
 
 #
