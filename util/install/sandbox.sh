@@ -17,12 +17,6 @@ if [[ ! "$(lsb_release -d | cut -f2)" =~ $'Ubuntu 12.04' ]]; then
 fi
 
 ##
-## Set ppa repository source for gcc/g++ 4.8 in order to install insights properly
-##
-sudo apt-get install -y python-software-properties
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-
-##
 ## Update and Upgrade apt packages
 ##
 sudo apt-get update -y
@@ -31,33 +25,21 @@ sudo apt-get upgrade -y
 ##
 ## Install system pre-requisites
 ##
-sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev libxmlsec1-dev libfreetype6-dev swig gcc-4.8 g++-4.8
-sudo pip install --upgrade pip==7.1.2
-sudo pip install --upgrade setuptools==18.3.2
-sudo -H pip install --upgrade virtualenv==13.1.2
-
-##
-## Update alternatives so that gcc/g++ 4.8 is the default compiler
-##
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
-sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50
+sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev
+sudo pip install --upgrade pip
+sudo pip install --upgrade virtualenv
 
 ## Did we specify an openedx release?
-if [ -n "$OPENEDX_RELEASE" ]; then
-  EXTRA_VARS="-e edx_platform_version=$OPENEDX_RELEASE \
-    -e certs_version=$OPENEDX_RELEASE \
-    -e forum_version=$OPENEDX_RELEASE \
-    -e xqueue_version=$OPENEDX_RELEASE \
-    -e configuration_version=$OPENEDX_RELEASE \
-    -e NOTIFIER_VERSION=$OPENEDX_RELEASE \
-    -e INSIGHTS_VERSION=$OPENEDX_RELEASE \
-    -e ANALYTICS_API_VERSION=$OPENEDX_RELEASE \
-    -e EDX_NOTES_API_VERSION=cf63214dfed01daec1405f27292e0dd917f28d50
-  "
-  CONFIG_VER=$OPENEDX_RELEASE
-else
-  CONFIG_VER="master"
-fi
+#if [ -n "$OPENEDX_RELEASE" ]; then
+#  EXTRA_VARS="-e edx_platform_version=$OPENEDX_RELEASE \
+#    -e certs_version=$OPENEDX_RELEASE \
+#    -e forum_version=$OPENEDX_RELEASE \
+#    -e xqueue_version=$OPENEDX_RELEASE \
+#  "
+#  CONFIG_VER=$OPENEDX_RELEASE
+#else
+#  CONFIG_VER="release"
+#fi
 
 ##
 ## Clone the configuration repository and run Ansible
@@ -66,15 +48,22 @@ cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
 git checkout $CONFIG_VER
-git cherry-pick de9dab6
 
 ##
 ## Install the ansible requirements
 ##
 cd /var/tmp/configuration
-sudo -H pip install -r requirements.txt
+sudo pip install -r requirements.txt
+
+##
+## Get configuratuon
+##
+cd /var/tmp/
+wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/named-release/cypress/util/install/server-vars.yml
 
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
-cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," $EXTRA_VARS
+cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
+
+cp /var/tmp/server-vars.yml /edx/app/edx_ansible/server-vars.yml
