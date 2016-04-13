@@ -19,9 +19,8 @@ fi
 ##
 ## Update and Upgrade apt packages
 ##
-echo ""
-echo "Update and Upgrade apt packages"
-echo "-------------------------------"
+echo -e "\nUpdate and Upgrade apt packages"
+echo -e "-------------------------------"
 sudo apt-get update -y
 sudo apt-get upgrade -y
 echo "==============================="
@@ -29,13 +28,12 @@ echo "==============================="
 ##
 ## Install system pre-requisites
 ##
-echo.
-echo "Install system pre-requisites"
-echo "-------------------------------"
+echo -e "\nInstall system pre-requisites"
+echo -e "-------------------------------"
 sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev
 sudo pip install --upgrade pip
 sudo pip install --upgrade virtualenv
-echo "==============================="
+echo -e "==============================="
 
 ## Did we specify an openedx release?
 #if [ -n "$OPENEDX_RELEASE" ]; then
@@ -52,45 +50,41 @@ echo "==============================="
 ##
 ## Clone the configuration repository and run Ansible
 ##
-echo.
-echo "Clone the configuration repository and run Ansible"
-echo "------------------------------"
+echo -e "\nClone the configuration repository and run Ansible"
+echo -e "------------------------------"
 cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
 echo "Version: $CONFIG_VER"
 #git checkout $CONFIG_VER
 git checkout named-release/cypress
-echo "==============================="
+echo -e "==============================="
 
 ##
 ## Install the ansible requirements
 ##
-echo.
-echo "Install the ansible requirements"
-echo "------------------------------"
+echo -e "\nInstall the ansible requirements"
+echo -e "------------------------------"
 cd /var/tmp/configuration
 sudo pip install -r requirements.txt
-echo "==============================="
+echo -e "==============================="
 
 ##
 ## Get configuration
 ##
-echo.
-echo "Get configuration"
-echo "------------------------------"
+echo -e "\nGet configuration"
+echo -e "------------------------------"
 cd /var/tmp/
 wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/named-release/cypress/util/install/server-vars.yml
-echo "==============================="
+echo -e "==============================="
 
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
-echo.
-echo "Run the edx_sandbox.yml playbook in the configuration/playbooks directory"
-echo "------------------------------"
+echo -e "\nRun the edx_sandbox.yml playbook in the configuration/playbooks directory"
+echo -e "------------------------------"
 cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
-echo "==============================="
+echo -e "==============================="
 
 ##
 ## Copy server-vars.yml 
