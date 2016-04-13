@@ -29,7 +29,7 @@ echo "==============================="
 ##
 ## Install system pre-requisites
 ##
-echo ""
+echo.
 echo "Install system pre-requisites"
 echo "-------------------------------"
 sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev
@@ -52,20 +52,21 @@ echo "==============================="
 ##
 ## Clone the configuration repository and run Ansible
 ##
-echo ""
+echo.
 echo "Clone the configuration repository and run Ansible"
 echo "------------------------------"
 cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
-echo $CONFIG_VER
-git checkout $CONFIG_VER
+echo "Version: $CONFIG_VER"
+#git checkout $CONFIG_VER
+git checkout named-release/cypress
 echo "==============================="
 
 ##
 ## Install the ansible requirements
 ##
-echo ""
+echo.
 echo "Install the ansible requirements"
 echo "------------------------------"
 cd /var/tmp/configuration
@@ -75,7 +76,7 @@ echo "==============================="
 ##
 ## Get configuration
 ##
-echo ""
+echo.
 echo "Get configuration"
 echo "------------------------------"
 cd /var/tmp/
@@ -85,7 +86,7 @@ echo "==============================="
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
-echo ""
+echo.
 echo "Run the edx_sandbox.yml playbook in the configuration/playbooks directory"
 echo "------------------------------"
 cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
