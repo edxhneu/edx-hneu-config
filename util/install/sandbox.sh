@@ -19,15 +19,23 @@ fi
 ##
 ## Update and Upgrade apt packages
 ##
+echo ""
+echo "Update and Upgrade apt packages"
+echo "-------------------------------"
 sudo apt-get update -y
 sudo apt-get upgrade -y
+echo "==============================="
 
 ##
 ## Install system pre-requisites
 ##
+echo ""
+echo "Install system pre-requisites"
+echo "-------------------------------"
 sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev
 sudo pip install --upgrade pip
 sudo pip install --upgrade virtualenv
+echo "==============================="
 
 ## Did we specify an openedx release?
 #if [ -n "$OPENEDX_RELEASE" ]; then
@@ -44,27 +52,46 @@ sudo pip install --upgrade virtualenv
 ##
 ## Clone the configuration repository and run Ansible
 ##
+echo ""
+echo "Clone the configuration repository and run Ansible"
+echo "------------------------------"
 cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
 echo $CONFIG_VER
 git checkout $CONFIG_VER
+echo "==============================="
 
 ##
 ## Install the ansible requirements
 ##
+echo ""
+echo "Install the ansible requirements"
+echo "------------------------------"
 cd /var/tmp/configuration
 sudo pip install -r requirements.txt
+echo "==============================="
 
 ##
-## Get configuratuon
+## Get configuration
 ##
+echo ""
+echo "Get configuration"
+echo "------------------------------"
 cd /var/tmp/
 wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/named-release/cypress/util/install/server-vars.yml
+echo "==============================="
 
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
+echo ""
+echo "Run the edx_sandbox.yml playbook in the configuration/playbooks directory"
+echo "------------------------------"
 cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
+echo "==============================="
 
+##
+## Copy server-vars.yml 
+##
 cp /var/tmp/server-vars.yml /edx/app/edx_ansible/server-vars.yml
