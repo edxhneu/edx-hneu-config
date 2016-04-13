@@ -47,6 +47,7 @@ sudo pip install --upgrade virtualenv
 cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
+echo $CONFIG_VER
 git checkout $CONFIG_VER
 
 ##
