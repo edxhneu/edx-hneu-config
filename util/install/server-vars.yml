@@ -12,9 +12,9 @@ edx_platform_version: 'named-release/cypress'
 certs_version: 'named-release/cypress'
 forum_version: 'named-release/cypress'
 xqueue_version: 'named-release/cypress'
-NOTIFIER_VERSION: 'named-release/cypress'
-INSIGHTS_VERSION: 'named-release/cypress'
-ANALYTICS_API_VERSION: 'named-release/cypress'
+#NOTIFIER_VERSION: 'named-release/cypress'
+#INSIGHTS_VERSION: 'named-release/cypress'
+#ANALYTICS_API_VERSION: 'named-release/cypress'
 EDX_NOTES_API_VERSION: 'cf63214dfed01daec1405f27292e0dd917f28d50'
 
 #
