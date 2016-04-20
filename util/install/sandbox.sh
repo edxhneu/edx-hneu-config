@@ -75,4 +75,26 @@ sudo -H pip install -r requirements.txt
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
-cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," $EXTRA_VARS
+#cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," $EXTRA_VARS
+
+##
+## Get configuration
+##
+echo -e "\nGet configuration"
+echo -e "------------------------------"
+cd /var/tmp/
+wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/named-release/dogwood.2.hneu/util/install/server-vars.yml
+echo -e "==============================="
+
+##
+## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
+##
+echo -e "\nRun the edx_sandbox.yml playbook in the configuration/playbooks directory"
+echo -e "------------------------------"
+cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
+echo -e "==============================="
+
+##
+## Copy server-vars.yml 
+##
+cp /var/tmp/server-vars.yml /edx/app/edx_ansible/server-vars.yml
