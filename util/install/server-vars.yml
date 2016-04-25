@@ -14,7 +14,7 @@ forum_version: 'named-release/cypress'
 xqueue_version: 'named-release/cypress'
 NOTIFIER_VERSION: 'named-release/cypress'
 #INSIGHTS_VERSION: 'named-release/cypress'
-#ANALYTICS_API_VERSION: 'named-release/cypress'
+ANALYTICS_API_VERSION: 'af85c1ee1445d40edc67cbb7561b69247ff6c1a7'
 EDX_NOTES_API_VERSION: 'cf63214dfed01daec1405f27292e0dd917f28d50'
 
 #
