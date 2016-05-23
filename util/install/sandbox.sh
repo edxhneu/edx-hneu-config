@@ -95,17 +95,6 @@ echo -e "------------------------------"
 cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
 echo -e "==============================="
 
-# fix 
-touch /edx/app/edx_notes_api/edx_notes_api/requirements/optional.txt
-
-##
-## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
-##
-echo -e "\nRun the edx_sandbox.yml playbook in the configuration/playbooks directory"
-echo -e "------------------------------"
-cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
-echo -e "==============================="
-
 ##
 ## Copy server-vars.yml 
 ##
