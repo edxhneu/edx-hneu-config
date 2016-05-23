@@ -5,16 +5,26 @@ configuration_version: 'named-release/cypress'
 
 # make this the public URL instead of writable
 #edx_platform_repo: "https://{{ COMMON_GIT_MIRROR }}/edx/edx-platform.git"
+edx_platform_repo: "https://github.com/edxhneu/edx-platform.git"
 # `edx_platform_version` can be anything that git recognizes as a commit
 # reference, including a tag, a branch name, or a commit hash
 edx_platform_version: 'named-release/cypress'
 
+CERTS_REPO: "https://github.com/edxhneu/edx-certificates.git"
 certs_version: 'named-release/cypress'
+
+forum_source_repo: "https://github.com/edx/cs_comments_service.git"
 forum_version: 'named-release/cypress'
+
+xqueue_source_repo: "https://github.com/edx/xqueue.git"
 xqueue_version: 'named-release/cypress'
+
+NOTIFIER_SOURCE_REPO: "https://github.com/edx/notifier.git"
 NOTIFIER_VERSION: 'named-release/cypress'
 #INSIGHTS_VERSION: 'named-release/cypress'
 #ANALYTICS_API_VERSION: 'af85c1ee1445d40edc67cbb7561b69247ff6c1a7'
+
+COMMON_GIT_PATH: 'edxhneu'
 EDX_NOTES_API_VERSION: '41cb623'
 
 #
