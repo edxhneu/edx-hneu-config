@@ -23,21 +23,25 @@ CERTS_REPO: "https://github.com/edxhneu/edx-certificates.git"
 certs_version: "{{ EDX_TAG }}"
 
 forum_source_repo: "https://github.com/edx/cs_comments_service.git"
-#forum_version: 'named-release/dogwood.2'
+#forum_version: 'named-release/dogwood.3'
 forum_version: "{{ EDX_TAG }}"
 
 xqueue_source_repo: "https://github.com/edx/xqueue.git"
-#xqueue_version: 'named-release/dogwood.2'
+#xqueue_version: 'named-release/dogwood.3'
 xqueue_version: "{{ EDX_TAG }}"
 
 NOTIFIER_SOURCE_REPO: "https://github.com/edx/notifier.git"
-#NOTIFIER_VERSION: 'named-release/dogwood.2'
+#NOTIFIER_VERSION: 'named-release/dogwood.3'
 NOTIFIER_VERSION: "{{ EDX_TAG }}"
 
-#INSIGHTS_VERSION: 'named-release/dogwood.2' 
+#https://github.com/edx/edx-analytics-dashboard.git
+#https://github.com/edx/configuration/tree/named-release/dogwood.3/playbooks/roles/insights
+#INSIGHTS_VERSION: 'named-release/dogwood.3' 
 INSIGHTS_VERSION: "{{ EDX_TAG }}"
 
-#ANALYTICS_API_VERSION: 'named-release/dogwood.2'
+#https://github.com/edx/edx-analytics-data-api.git
+#https://github.com/edx/configuration/tree/named-release/dogwood.3/playbooks/roles/analytics_api
+#ANALYTICS_API_VERSION: 'named-release/dogwood.3'
 ANALYTICS_API_VERSION: "{{ EDX_TAG }}"
 
 #
@@ -104,5 +108,5 @@ EDXAPP_LMS_SITE_NAME: "edx.hneu.net"
 edxapp_use_custom_theme: true
 edxapp_theme_name: 'default'
 #edxapp_theme_source_repo: 'https://{{ COMMON_GIT_MIRROR }}/Stanford-Online/edx-theme.git'
-edxapp_theme_source_repo: 'https://github.com/Stanford-Online/edx-theme.git'
+edxapp_theme_source_repo: "https://{{ COMMON_GIT_MIRROR }}/{{ COMMON_GIT_PATH }}/Stanford-Online/edx-theme.git"
 edxapp_theme_version: 'HEAD'
