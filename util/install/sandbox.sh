@@ -7,7 +7,10 @@
 ## Note that this script requires that you have the ability to run
 ## commands as root via sudo.  Caveat Emptor!
 ##
-export OPENEDX_RELEASE=named-release/dogwood.2
+
+OPENEDX_RELEASE="named-release/dogwood.2"
+SUFIX=".hneu"
+
 ##
 ## Sanity check
 ##
@@ -25,22 +28,28 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 ##
 ## Update and Upgrade apt packages
 ##
+echo -ne "\r-------------------------------  Update and Upgrade apt packages  -------------------------------"
 sudo apt-get update -y
 sudo apt-get upgrade -y
+echo -ne "==============================="
 
 ##
 ## Install system pre-requisites
 ##
+echo -ne "\r---------------  Install system pre-requisites  -----------------"
 sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev libxmlsec1-dev libfreetype6-dev swig gcc-4.8 g++-4.8
 sudo pip install --upgrade pip==7.1.2
 sudo pip install --upgrade setuptools==18.3.2
 sudo -H pip install --upgrade virtualenv==13.1.2
+echo -ne "==============================="
 
 ##
 ## Update alternatives so that gcc/g++ 4.8 is the default compiler
 ##
+echo -ne "\r--------------- Update alternatives so that gcc/g++ 4.8 is the default compiler -----------------"
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50
+echo -ne "==================================================================================================="
 
 ## Did we specify an openedx release?
 if [ -n "$OPENEDX_RELEASE" ]; then
@@ -58,41 +67,41 @@ else
   CONFIG_VER="master"
 fi
 
+
 ##
 ## Clone the configuration repository and run Ansible
 ##
+echo -ne "\r------------------------------  Clone the configuration repository and run Ansible  ------------------------------"
 cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
+echo "Version: $CONFIG_VER"
+#git checkout $CONFIG_VER
 git checkout $CONFIG_VER
+echo -ne "==============================="
 
 ##
 ## Install the ansible requirements
 ##
+echo -ne "\r------------------------------  Install the ansible requirements  ------------------------------"
 cd /var/tmp/configuration
-sudo -H pip install -r requirements.txt
-
-##
-## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
-##
-#cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," $EXTRA_VARS
+sudo pip install -r requirements.txt
+echo -ne "==============================="
 
 ##
 ## Get configuration
 ##
-echo -e "\nGet configuration"
-echo -e "------------------------------"
+echo -ne "\r------------------------------  Get configuration  ------------------------------"
 cd /var/tmp/
-wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/named-release/dogwood.2.hneu/util/install/server-vars.yml
-echo -e "==============================="
+wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/$CONFIG_VER$SUFIX/util/install/server-vars.yml
+echo -ne "==============================="
 
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
-echo -e "\nRun the edx_sandbox.yml playbook in the configuration/playbooks directory"
-echo -e "------------------------------"
+echo -ne "\r------------------------------  Run the edx_sandbox.yml playbook in the configuration/playbooks directory  ------------------------------"
 cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
-echo -e "==============================="
+echo -ne "==============================="
 
 ##
 ## Copy server-vars.yml 
