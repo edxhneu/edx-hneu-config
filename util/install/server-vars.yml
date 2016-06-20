@@ -108,5 +108,5 @@ EDXAPP_LMS_SITE_NAME: "edx.hneu.net"
 edxapp_use_custom_theme: true
 edxapp_theme_name: 'default'
 #edxapp_theme_source_repo: 'https://{{ COMMON_GIT_MIRROR }}/Stanford-Online/edx-theme.git'
-edxapp_theme_source_repo: "https://{{ COMMON_GIT_MIRROR }}/{{ COMMON_GIT_PATH }}/Stanford-Online/edx-theme.git"
+edxapp_theme_source_repo: "https://{{ COMMON_GIT_MIRROR }}/{{ COMMON_GIT_PATH }}/edx-theme.git"
 edxapp_theme_version: 'HEAD'
