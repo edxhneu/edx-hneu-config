@@ -7,30 +7,43 @@ EDX_TAG: 'named-release/dogwood.3'
 COMMON_GIT_MIRROR: 'github.com'
 COMMON_GIT_PATH: 'edxhneu'
 
+#configuration_version: 'named-release/dogwood.2'
+configuration_version: {{ EDX_TAG }}
+
 # make this the public URL instead of writable
 #edx_platform_repo: "https://{{ COMMON_GIT_MIRROR }}/edx/edx-platform.git"
 edx_platform_repo: "https://{{ COMMON_GIT_MIRROR }}/{{ COMMON_GIT_PATH }}/edx-platform.git"
 
 # `edx_platform_version` can be anything that git recognizes as a commit
 # reference, including a tag, a branch name, or a commit hash
-edx_platform_version: 'named-release/dogwood.2'
+#edx_platform_version: 'named-release/dogwood.2'
+edx_platform_version: {{ EDX_TAG }}
 
 CERTS_REPO: "https://github.com/edxhneu/edx-certificates.git"
 certs_version: {{ EDX_TAG }}
 
 forum_source_repo: "https://github.com/edx/cs_comments_service.git"
-forum_version: 'named-release/dogwood.2'
+#forum_version: 'named-release/dogwood.2'
+forum_version: {{ EDX_TAG }}
 
-xqueue_version: 'named-release/dogwood.2'
-configuration_version: 'named-release/dogwood.2'
-NOTIFIER_VERSION: 'named-release/dogwood.2'
-INSIGHTS_VERSION: 'named-release/dogwood.2' 
-ANALYTICS_API_VERSION: 'named-release/dogwood.2'
+xqueue_source_repo: "https://github.com/edx/xqueue.git"
+#xqueue_version: 'named-release/dogwood.2'
+xqueue_version: {{ EDX_TAG }}
+
+NOTIFIER_SOURCE_REPO: "https://github.com/edx/notifier.git"
+#NOTIFIER_VERSION: 'named-release/dogwood.2'
+NOTIFIER_VERSION: {{ EDX_TAG }}
+
+#INSIGHTS_VERSION: 'named-release/dogwood.2' 
+INSIGHTS_VERSION: {{ EDX_TAG }} 
+
+#ANALYTICS_API_VERSION: 'named-release/dogwood.2'
+#ANALYTICS_API_VERSION: 'named-release/dogwood.2'
 
 #
 # Settings EDX platform
 #
-EDXAPP_PLATFORM_NAME: 'ХНЕУ им С. Кузнеця'
+EDXAPP_PLATFORM_NAME: 'KhNEU  S.Kuznets'
 
 #EDXAPP_TIME_ZONE: 'America/New_York'
 EDXAPP_TIME_ZONE: 'Europe/Kiev'
