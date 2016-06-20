@@ -8,6 +8,8 @@
 ## commands as root via sudo.  Caveat Emptor!
 ##
 
+OPENEDX_RELEASE="namad-release/doogwood.3"
+
 ##
 ## Sanity check
 ##
@@ -17,17 +19,37 @@ if [[ ! "$(lsb_release -d | cut -f2)" =~ $'Ubuntu 12.04' ]]; then
 fi
 
 ##
+## Set ppa repository source for gcc/g++ 4.8 in order to install insights properly
+##
+sudo apt-get install -y python-software-properties
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+
+##
 ## Update and Upgrade apt packages
 ##
+echo -e "\nUpdate and Upgrade apt packages"
+echo -e "-------------------------------"
 sudo apt-get update -y
 sudo apt-get upgrade -y
+echo "==============================="
 
 ##
 ## Install system pre-requisites
 ##
-sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev
-sudo pip install --upgrade pip
-sudo pip install --upgrade virtualenv
+echo -e "\n--------------- Install system pre-requisites -----------------"
+sudo apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev python-pip python-apt python-dev libxmlsec1-dev libfreetype6-dev swig gcc-4.8 g++-4.8
+sudo pip install --upgrade pip==7.1.2
+sudo pip install --upgrade setuptools==18.3.2
+sudo -H pip install --upgrade virtualenv==13.1.2
+echo -e "==============================="
+
+##
+## Update alternatives so that gcc/g++ 4.8 is the default compiler
+##
+echo -e "\n--------------- Update alternatives so that gcc/g++ 4.8 is the default compiler -----------------"
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50
+echo -e "==================================================================================================="
 
 ## Did we specify an openedx release?
 if [ -n "$OPENEDX_RELEASE" ]; then
@@ -35,35 +57,53 @@ if [ -n "$OPENEDX_RELEASE" ]; then
     -e certs_version=$OPENEDX_RELEASE \
     -e forum_version=$OPENEDX_RELEASE \
     -e xqueue_version=$OPENEDX_RELEASE \
+    -e configuration_version=$OPENEDX_RELEASE \
+    -e NOTIFIER_VERSION=$OPENEDX_RELEASE \
+    -e INSIGHTS_VERSION=$OPENEDX_RELEASE \
+    -e ANALYTICS_API_VERSION=$OPENEDX_RELEASE \
   "
   CONFIG_VER=$OPENEDX_RELEASE
 else
-  CONFIG_VER="release"
+  CONFIG_VER="master"
 fi
+
 
 ##
 ## Clone the configuration repository and run Ansible
 ##
+echo -e "\n------------------------------  Clone the configuration repository and run Ansible  ------------------------------"
 cd /var/tmp
 git clone https://github.com/edx/configuration
 cd configuration
-git checkout $CONFIG_VER
+echo "Version: $CONFIG_VER"
+#git checkout $CONFIG_VER
+git checkout named-release/dogwood.3
+echo -e "==============================="
 
 ##
 ## Install the ansible requirements
 ##
+echo -e "\n------------------------------  Install the ansible requirements  ------------------------------"
 cd /var/tmp/configuration
 sudo pip install -r requirements.txt
+echo -e "==============================="
 
 ##
-## Get configuratuon
+## Get configuration
 ##
+echo -e "\n------------------------------  Get configuration  ------------------------------"
 cd /var/tmp/
-wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/configuration/named-release/cypress-hneu/util/install/server-vars.yml
+wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/named-release/dogwood.3.hneu/util/install/server-vars.yml
+echo -e "==============================="
 
 ##
 ## Run the edx_sandbox.yml playbook in the configuration/playbooks directory
 ##
+echo -e "\n------------------------------  Run the edx_sandbox.yml playbook in the configuration/playbooks directory  ------------------------------"
 cd /var/tmp/configuration/playbooks && sudo ansible-playbook -c local ./edx_sandbox.yml -i "localhost," -e@/var/tmp/server-vars.yml
+echo -e "==============================="
 
+##
+## Copy server-vars.yml 
+##
 cp /var/tmp/server-vars.yml /edx/app/edx_ansible/server-vars.yml
