@@ -8,7 +8,7 @@
 ## commands as root via sudo.  Caveat Emptor!
 ##
 
-OPENEDX_RELEASE="namad-release/doogwood.3"
+OPENEDX_RELEASE="namad-release/dogwood.3"
 
 ##
 ## Sanity check
@@ -77,7 +77,7 @@ git clone https://github.com/edx/configuration
 cd configuration
 echo "Version: $CONFIG_VER"
 #git checkout $CONFIG_VER
-git checkout named-release/dogwood.3
+git checkout $CONFIG_VER
 echo -e "==============================="
 
 ##
@@ -93,7 +93,7 @@ echo -e "==============================="
 ##
 echo -e "\n------------------------------  Get configuration  ------------------------------"
 cd /var/tmp/
-wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/named-release/dogwood.3.hneu/util/install/server-vars.yml
+wget -O server-vars.yml https://raw.githubusercontent.com/edxhneu/edx-hneu-config/$CONFIG_VER/util/install/server-vars.yml
 echo -e "==============================="
 
 ##
