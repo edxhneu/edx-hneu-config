@@ -8,7 +8,7 @@
 ## commands as root via sudo.  Caveat Emptor!
 ##
 
-OPENEDX_RELEASE="namad-release/dogwood.3"
+OPENEDX_RELEASE="named-release/dogwood.3"
 
 ##
 ## Sanity check
